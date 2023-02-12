@@ -1,4 +1,7 @@
 'use client';
+import Button from '@/components/Button';
+import Input from '@/components/Input';
+import Textarea from '@/components/Textarea';
 import { ChangeEvent, ReactNode, useCallback, useState } from 'react';
 import styles from './page.module.css';
 
@@ -12,34 +15,40 @@ export default function Home() {
 
   const generate = useCallback(() => {
     setBookmarkLink(
-      <>
+      <div className={styles.full}>
+        <h4>⬇️ Drag the link below into your bookmarks ⬇️</h4>
+        <p />
         <a href={wrapCode(code)}>{name || `Bookmark`}</a>
-      </>,
+      </div>,
     );
   }, [code, name]);
 
   return (
     <main className={styles.main}>
-      <h2>Bookmarkify</h2>
-      {bookmarkLink}
       <div className={styles.center}>
-        <input
-          placeholder='Name'
+        <h2>Bookmarkify</h2>
+        {bookmarkLink}
+        <Input
+          autoFocus
+          placeholder='Bookmark name'
           value={name}
+          className={styles.full}
           onChange={(e: ChangeEvent<HTMLInputElement>) =>
             setName(e.target.value)
           }
         />
-        <textarea
+        <Textarea
+          className={styles.full}
           placeholder='document.querySelector("body").click()'
           value={code}
+          style={{ fontFamily: 'var(--font-mono)' }}
           onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
             setCode(e.target.value)
           }
-        ></textarea>
-        <button disabled={!code} onClick={generate}>
+        ></Textarea>
+        <Button className={styles.full} disabled={!code} onClick={generate}>
           Generate bookmark
-        </button>
+        </Button>
       </div>
     </main>
   );
